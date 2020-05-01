@@ -11,7 +11,6 @@ import javax.inject.Singleton
 @ExperimentalCoroutinesApi
 @Module(includes = [ContextModule::class])
 class DbModule {
-
     @Provides
     @Singleton
     fun instance(context: Context): NotesDatabase = NotesDatabase.instance(context)
