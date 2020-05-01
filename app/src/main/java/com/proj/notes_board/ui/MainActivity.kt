@@ -1,7 +1,8 @@
-package com.proj.notes_board
+package com.proj.notes_board.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.proj.notes_board.R
 
 class MainActivity : AppCompatActivity() {
 
