@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NotesDao {
-    @Query("SELECT * FROM Note")
+    @Query("SELECT * FROM Note ORDER BY id DESC")
     fun getAll(): Flow<List<Note>>
 
     @Insert(onConflict = REPLACE)

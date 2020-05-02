@@ -18,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:background="@color/colorBackgroundLight"
         android:orientation="vertical"
         android:padding="8dp">
 
@@ -34,15 +35,16 @@
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:text="@{note.title}"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/noteColor"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_weight="0"
-                app:cardCornerRadius="6dp"
-                app:cardBackgroundColor="@{ContextCompat.getColor(context, note.noteColor)}" />
+                app:cardBackgroundColor="@{note.noteColor}"
+                app:cardCornerRadius="6dp" />
         </LinearLayout>
 
         <LinearLayout

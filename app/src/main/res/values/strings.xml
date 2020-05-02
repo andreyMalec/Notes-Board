@@ -4,4 +4,10 @@
     <string name="date_today">Today</string>
     <string name="date_yesterday">Yesterday</string>
     <string name="date_n_days_ago">%1$d days ago</string>
+
+    <string name="title_text">Title</string>
+    <string name="description_text">Description</string>
+    <string name="color_text">Badge color</string>
+    <string name="input_error">Title can\'t be empty</string>
+    <string name="note_created">New note created</string>
 </resources>

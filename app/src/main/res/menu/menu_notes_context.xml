@@ -6,5 +6,12 @@
         android:id="@+id/deleteBtn"
         android:icon="@drawable/delete_icon"
         android:title=""
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/createBtn"
+        android:icon="@drawable/done_icon"
+        android:title=""
         app:showAsAction="always" />
 </menu>

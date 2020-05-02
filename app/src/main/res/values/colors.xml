@@ -5,13 +5,15 @@
     <color name="colorAccent">#4A88C5</color>
 
     <color name="colorBackground1">#D1518E</color>
-    <color name="colorBackground2">#FB7F62</color>
-    <color name="colorBackground3">#46B473</color>
-    <color name="colorBackground4">#FBFB62</color>
-    <color name="colorBackground5">#FBBA62</color>
-    <color name="colorBackground6">#BDEB5B</color>
-    <color name="colorBackground7">#8D45A6</color>
-    <color name="colorBackground8">#4678A2</color>
+    <color name="colorBackground2">#4678E2</color>
+    <color name="colorBackground3">#FB7F62</color>
+    <color name="colorBackground4">#46B473</color>
+    <color name="colorBackground5">#FBFB62</color>
+    <color name="colorBackground6">#FBBA62</color>
+    <color name="colorBackground7">#BDEB5B</color>
+    <color name="colorBackground8">#D85249</color>
 
     <color name="colorBackground">#EEE</color>
+    <color name="colorBackgroundLight">#F9F9F9</color>
+    <color name="colorError">#FF575D</color>
 </resources>

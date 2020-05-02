@@ -5,12 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.proj.notes_board.R
 import com.proj.notes_board.di.Injectable
+import com.proj.notes_board.ui.MainViewModel
 import kotlinx.android.synthetic.main.fragment_notes.*
 import javax.inject.Inject
 
@@ -18,7 +19,7 @@ class NotesFragment : Fragment(), Injectable, NotesAdapter.NoteAction {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel: NotesViewModel by viewModels {
+    private val viewModel: MainViewModel by activityViewModels {
         viewModelFactory
     }
 
