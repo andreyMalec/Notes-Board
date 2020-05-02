@@ -10,5 +10,5 @@ class Note(
     val title: String,
     val description: String,
     val createdDate: Long,
-    val backgroundColor: Int
+    val noteColor: Int
 )

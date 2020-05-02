@@ -6,21 +6,60 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.proj.notes_board.R
 import com.proj.notes_board.di.Injectable
-import com.proj.notes_board.ui.MainViewModel
+import kotlinx.android.synthetic.main.fragment_notes.*
 import javax.inject.Inject
 
-class NotesFragment: Fragment(), Injectable {
+class NotesFragment : Fragment(), Injectable, NotesAdapter.NoteAction {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel: MainViewModel by viewModels {
+    private val viewModel: NotesViewModel by viewModels {
         viewModelFactory
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    private val adapter = NotesAdapter(this)
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_notes, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initRecycler()
+        initListeners()
+    }
+
+    private fun initRecycler() {
+        notesRecycler.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        notesRecycler.adapter = adapter
+    }
+
+    private fun initListeners() {
+        initViewModelListeners()
+        initBtnListeners()
+    }
+
+    private fun initViewModelListeners() {
+        viewModel.notes.observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it)
+        })
+    }
+
+    private fun initBtnListeners() {
+        createNoteFAB.setOnClickListener {
+            viewModel.onCreateNoteClick()
+        }
+
     }
 }

@@ -12,7 +12,7 @@ import com.proj.notes_board.di.Injectable
 import com.proj.notes_board.ui.MainViewModel
 import javax.inject.Inject
 
-class CreateNoteFragment: Fragment(), Injectable {
+class CreateNoteFragment : Fragment(), Injectable {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -20,7 +20,11 @@ class CreateNoteFragment: Fragment(), Injectable {
         viewModelFactory
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_create_note, container, false)
     }
 }

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Notes</string>
+
+    <string name="date_today">Today</string>
+    <string name="date_yesterday">Yesterday</string>
+    <string name="date_n_days_ago">%1$d days ago</string>
 </resources>
