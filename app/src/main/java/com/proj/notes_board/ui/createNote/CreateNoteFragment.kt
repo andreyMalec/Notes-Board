@@ -3,6 +3,7 @@ package com.proj.notes_board.ui.createNote
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -18,6 +19,7 @@ import com.proj.notes_board.di.Injectable
 import com.proj.notes_board.ui.MainViewModel
 import kotlinx.android.synthetic.main.fragment_create_note.*
 import javax.inject.Inject
+import kotlin.math.sqrt
 
 class CreateNoteFragment : Fragment(), Injectable {
     @Inject
@@ -29,12 +31,48 @@ class CreateNoteFragment : Fragment(), Injectable {
 
     private var oldToolbarColor = 0
 
+    private val layoutListener = object : View.OnLayoutChangeListener {
+        override fun onLayoutChange(
+            v: View?,
+            left: Int,
+            top: Int,
+            right: Int,
+            bottom: Int,
+            oldLeft: Int,
+            oldTop: Int,
+            oldRight: Int,
+            oldBottom: Int
+        ) {
+            v?.removeOnLayoutChangeListener(this)
+
+            val dm = DisplayMetrics()
+            activity?.windowManager?.defaultDisplay?.getMetrics(dm)
+            val w = dm.widthPixels
+            val h = dm.heightPixels
+            val r = sqrt((w * w + h * h).toFloat())
+
+            val animator = ViewAnimationUtils.createCircularReveal(
+                view,
+                w,
+                h,
+                0F,
+                r
+            )
+            animator.duration = 400
+            animator.start()
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_create_note, container, false)
+        val v = inflater.inflate(R.layout.fragment_create_note, container, false)
+
+        v.addOnLayoutChangeListener(layoutListener)
+
+        return v
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -66,17 +104,18 @@ class CreateNoteFragment : Fragment(), Injectable {
     }
 
     private fun initToolbar() {
+        toolbar.setTitle(R.string.toolbar_create_note)
         (activity as AppCompatActivity?)?.setSupportActionBar(toolbar)
         setHasOptionsMenu(true)
 
         oldToolbarColor = ContextCompat.getColor(
             requireContext(),
-            R.color.colorPrimary
+            android.R.color.transparent
         )
     }
 
     private fun initViewModelListeners() {
-        viewModel.createResultError.observe(viewLifecycleOwner, Observer { error ->
+        viewModel.isCreateError.observe(viewLifecycleOwner, Observer { error ->
             if (error)
                 showInputError()
         })

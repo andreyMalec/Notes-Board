@@ -10,8 +10,17 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NotesDao {
-    @Query("SELECT * FROM Note ORDER BY id DESC")
+    @Query("SELECT * FROM Note WHERE isDeleted = 0 ORDER BY id DESC")
     fun getAll(): Flow<List<Note>>
+
+    @Query("SELECT * FROM Note WHERE id = :id")
+    fun getById(id: Long): Note
+
+    @Query("SELECT * FROM Note WHERE isSelected = 1 ORDER BY id DESC")
+    fun getSelected(): Flow<List<Note>>
+
+    @Query("SELECT * FROM Note WHERE isDeleted = 1 ORDER BY id DESC")
+    fun getDeleted(): List<Note>
 
     @Insert(onConflict = REPLACE)
     fun insert(note: Note)

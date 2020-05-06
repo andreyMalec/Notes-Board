@@ -4,6 +4,8 @@ import androidx.lifecycle.*
 import com.proj.notes_board.model.Note
 import com.proj.notes_board.repo.NotesRepo
 import com.proj.notes_board.ui.navigation.Screens
+import com.proj.notes_board.ui.notes.NotesAdapter
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
@@ -11,37 +13,100 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val repo: NotesRepo,
     private val router: Router
-) : ViewModel() {
+) : ViewModel(), NotesAdapter.NoteAction {
 
     val notes: LiveData<List<Note>> = repo.getAll().asLiveData()
 
-    private val _createResultError = MutableLiveData<Boolean>()
-    val createResultError: LiveData<Boolean>
-        get() = _createResultError
+    private val selected = mutableListOf<Long>()
+
+    private val _isCreateError = MutableLiveData(false)
+    val isCreateError: LiveData<Boolean>
+        get() = _isCreateError
+
+    private val _selectedCount = MutableLiveData(0)
+    val selectedCount: LiveData<Int>
+        get() = _selectedCount
 
     fun init() {
         router.newRootScreen(Screens.Notes)
+
+        viewModelScope.launch {
+            selected.clear()
+            selected.addAll(repo.getSelected().first().map { it.id })
+            _selectedCount.value = selected.size
+        }
     }
 
     fun onCreateNoteClick() {
-        _createResultError.value = false
+        _isCreateError.value = false
         router.navigateTo(Screens.CreateNote)
     }
 
     fun checkAndCreateNote(title: String?, description: String?, badgeColor: Int?) {
-        val notNullTitle = if (title.isNullOrBlank()) {
-            _createResultError.value = true
+        if (title.isNullOrBlank()) {
+            _isCreateError.value = true
             return
         } else
-            title
-
-        createNote(notNullTitle, description, badgeColor)
+            createNote(title, description, badgeColor)
     }
 
     private fun createNote(title: String, description: String?, badgeColor: Int?) {
         viewModelScope.launch {
-            repo.createNote(title, description, badgeColor)
+            repo.create(title, description, badgeColor)
             router.exit()
+        }
+    }
+
+    fun clearSelection() {
+        viewModelScope.launch {
+            repo.clearSelection()
+            selected.clear()
+            _selectedCount.value = selected.size
+        }
+    }
+
+    fun deleteSelected() {
+        viewModelScope.launch {
+            selected.forEach {
+                repo.delete(it)
+            }
+            selected.clear()
+            _selectedCount.value = selected.size
+        }
+    }
+
+    fun undoDeletion() {
+        viewModelScope.launch {
+            repo.undoDeletion()
+        }
+    }
+
+    fun realDelete() {
+        viewModelScope.launch {
+            repo.realDelete()
+        }
+    }
+
+    override fun onNoteClick(note: Note) {
+        if (selected.isEmpty()) return
+
+        toggleSelect(note)
+    }
+
+    override fun onNoteLongClick(note: Note) {
+        toggleSelect(note)
+    }
+
+    private fun toggleSelect(note: Note) {
+        viewModelScope.launch {
+            if (note.isSelected)
+                selected.remove(note.id)
+            else
+                selected.add(note.id)
+
+            repo.toggleSelect(note)
+
+            _selectedCount.value = selected.size
         }
     }
 }

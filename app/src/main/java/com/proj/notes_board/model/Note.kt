@@ -10,5 +10,7 @@ class Note(
     val title: String,
     val description: String,
     val createdDate: Long,
-    val noteColor: Int
+    val noteColor: Int,
+    var isSelected: Boolean,
+    var isDeleted: Boolean
 )

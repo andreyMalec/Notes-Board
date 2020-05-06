@@ -16,4 +16,5 @@
     <color name="colorBackground">#EEE</color>
     <color name="colorBackgroundLight">#F9F9F9</color>
     <color name="colorError">#FF575D</color>
+    <color name="colorText">#333</color>
 </resources>

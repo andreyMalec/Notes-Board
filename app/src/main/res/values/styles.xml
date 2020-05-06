@@ -6,6 +6,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name="android:homeAsUpIndicator">@drawable/close_icon</item>
     </style>
 
     <style name="AppTheme.FAB" parent="Widget.MaterialComponents.FloatingActionButton">

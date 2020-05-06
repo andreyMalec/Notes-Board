@@ -11,14 +11,14 @@
         android:id="@+id/revealBackground"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorBackgroundLight"
         android:paddingTop="25dp" />
 
     <View
         android:id="@+id/reveal"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorBackgroundLight"
         android:paddingTop="25dp" />
 
     <androidx.appcompat.widget.Toolbar
@@ -26,7 +26,6 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@android:color/transparent"
-        android:elevation="6dp"
         android:paddingTop="25dp" />
 
     <ScrollView
@@ -54,7 +53,8 @@
                     android:hint="@string/title_text"
                     android:imeOptions="actionNext"
                     android:paddingTop="4dp"
-                    android:textSize="24sp"
+                    android:textColor="@color/colorText"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -71,7 +71,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/description_text"
                     android:imeOptions="actionDone"
-                    android:paddingTop="4dp" />
+                    android:paddingTop="4dp"
+                    android:textColor="@color/colorText" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView

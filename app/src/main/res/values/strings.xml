@@ -10,4 +10,9 @@
     <string name="color_text">Badge color</string>
     <string name="input_error">Title can\'t be empty</string>
     <string name="note_created">New note created</string>
+    <string name="toolbar_create_note">Create new note</string>
+    <string name="toolbar_notes">Notes</string>
+    <string name="toolbar_n_selected">Notes selected: %1$d</string>
+    <string name="n_notes_deleted">%1$d notes deleted</string>
+    <string name="undo_deletion">Undo</string>
 </resources>

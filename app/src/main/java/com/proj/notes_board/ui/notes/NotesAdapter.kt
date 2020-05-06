@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.proj.notes_board.databinding.ItemLayoutNoteBinding
 import com.proj.notes_board.model.Note
 
-class NotesAdapter constructor(private val vm: NoteAction) :
+class NotesAdapter(private val vm: NoteAction) :
     ListAdapter<Note, NotesAdapter.NoteItemViewHolder>(diffUtilCallback) {
     companion object {
         private val diffUtilCallback = object : DiffUtil.ItemCallback<Note>() {
@@ -22,7 +22,8 @@ class NotesAdapter constructor(private val vm: NoteAction) :
                         oldItem.title == newItem.title &&
                         oldItem.description == newItem.description &&
                         oldItem.createdDate == newItem.createdDate &&
-                        oldItem.noteColor == newItem.noteColor
+                        oldItem.noteColor == newItem.noteColor &&
+                        oldItem.isSelected == newItem.isSelected
             }
         }
     }
@@ -37,14 +38,32 @@ class NotesAdapter constructor(private val vm: NoteAction) :
         val note = getItem(position)
 
         holder.binding?.note = note
+
+        holder.binding?.selectedMarker?.visibility = getMarkerVisibility(note)
+        holder.binding?.mainLayout?.setOnClickListener {
+            vm.onNoteClick(note)
+        }
+
+        holder.binding?.mainLayout?.setOnLongClickListener {
+            vm.onNoteLongClick(note)
+            true
+        }
+    }
+
+    private fun getMarkerVisibility(note: Note): Int {
+        return if (note.isSelected)
+            View.VISIBLE
+        else
+            View.GONE
     }
 
     inner class NoteItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding: ItemLayoutNoteBinding? = androidx.databinding.DataBindingUtil.bind(view)
-
     }
 
     interface NoteAction {
+        fun onNoteClick(note: Note)
 
+        fun onNoteLongClick(note: Note)
     }
 }
