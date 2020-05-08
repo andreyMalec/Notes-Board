@@ -4,7 +4,7 @@ import androidx.lifecycle.*
 import com.proj.notes_board.model.Note
 import com.proj.notes_board.repo.NotesRepo
 import com.proj.notes_board.ui.navigation.Screens
-import com.proj.notes_board.ui.notes.NotesAdapter
+import com.proj.notes_board.ui.notes.NoteAction
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import ru.terrakok.cicerone.Router
@@ -13,7 +13,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val repo: NotesRepo,
     private val router: Router
-) : ViewModel(), NotesAdapter.NoteAction {
+) : ViewModel(), NoteAction {
 
     val notes: LiveData<List<Note>> = repo.getAll().asLiveData()
 
@@ -75,6 +75,11 @@ class MainViewModel @Inject constructor(
 
     override fun onNoteLongClick(note: Note) {
         toggleSelect(note)
+    }
+
+    override fun onNoteSwipe(position: Int) {
+        val note = notes.value?.get(position)
+        val l = 2
     }
 
     private fun toggleSelect(note: Note) {

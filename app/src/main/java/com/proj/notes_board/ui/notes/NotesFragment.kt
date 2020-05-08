@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
@@ -104,6 +105,13 @@ class NotesFragment : Fragment(), Injectable {
         notesRecycler.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         notesRecycler.adapter = adapter
+        val helper = ItemTouchHelper(
+            NotesSwipeCallback(
+                viewModel,
+                requireContext()
+            )
+        )
+        helper.attachToRecyclerView(notesRecycler)
     }
 
     private fun initListeners() {
@@ -114,6 +122,7 @@ class NotesFragment : Fragment(), Injectable {
     private fun initViewModelListeners() {
         viewModel.notes.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
+            notesRecycler.smoothScrollToPosition(0)
         })
 
         viewModel.selectedCount.observe(viewLifecycleOwner, Observer { count ->

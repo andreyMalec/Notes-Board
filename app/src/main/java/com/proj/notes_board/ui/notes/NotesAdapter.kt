@@ -60,10 +60,4 @@ class NotesAdapter(private val vm: NoteAction) :
     inner class NoteItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding: ItemLayoutNoteBinding? = androidx.databinding.DataBindingUtil.bind(view)
     }
-
-    interface NoteAction {
-        fun onNoteClick(note: Note)
-
-        fun onNoteLongClick(note: Note)
-    }
 }

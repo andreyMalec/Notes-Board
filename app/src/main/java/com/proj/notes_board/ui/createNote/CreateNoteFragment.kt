@@ -10,14 +10,12 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.proj.notes_board.R
 import com.proj.notes_board.di.Injectable
-import com.proj.notes_board.ui.MainViewModel
 import kotlinx.android.synthetic.main.fragment_create_note.*
 import javax.inject.Inject
 import kotlin.math.sqrt
