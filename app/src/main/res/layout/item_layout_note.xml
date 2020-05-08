@@ -28,9 +28,8 @@
 
             <View
                 android:id="@+id/selectedMarker"
-                android:layout_width="4dp"
+                android:layout_width="6dp"
                 android:layout_height="0dp"
-                android:layout_marginEnd="4dp"
                 android:background="@color/colorPrimary"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -38,8 +37,9 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:orientation="vertical"
                 android:padding="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -68,11 +68,11 @@
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/noteColor"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:layout_weight="0"
                         app:cardBackgroundColor="@{note.noteColor}"
-                        app:cardCornerRadius="8dp"
+                        app:cardCornerRadius="14dp"
                         app:cardElevation="0dp" />
                 </LinearLayout>
 

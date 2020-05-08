@@ -8,6 +8,7 @@ import android.util.DisplayMetrics
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
@@ -73,9 +74,7 @@ class ManageNoteFragment : Fragment(), Injectable {
         savedInstanceState: Bundle?
     ): View? {
         val v = inflater.inflate(R.layout.fragment_manage_note, container, false)
-
         v.addOnLayoutChangeListener(layoutListener)
-
         return v
     }
 
@@ -143,11 +142,22 @@ class ManageNoteFragment : Fragment(), Injectable {
         (activity as AppCompatActivity?)?.setSupportActionBar(toolbar)
         setHasOptionsMenu(true)
 
-//        oldToolbarColor = ContextCompat.getColor(
-//            requireContext(),
-//            android.R.color.transparent
-//        )
-//        viewModel.noteColor.value = oldToolbarColor
+        toolbar.setOnApplyWindowInsetsListener { _, insets ->
+            val statusBarHeight = insets.systemWindowInsetTop
+
+            val h =
+                (requireContext().resources.getDimension(R.dimen.toolbar_height) + statusBarHeight).toInt()
+            var lp = toolbar.layoutParams as CoordinatorLayout.LayoutParams
+            toolbar.layoutParams = lp.also { it.height = h }
+            toolbar.setPadding(0, statusBarHeight, 0, 0)
+            revealBackground.layoutParams = lp
+            revealBackground.setPadding(0, statusBarHeight, 0, 0)
+            reveal.layoutParams = lp
+            reveal.setPadding(0, statusBarHeight, 0, 0)
+            lp = scrollView.layoutParams as CoordinatorLayout.LayoutParams
+            scrollView.layoutParams = lp.also { it.topMargin = h }
+            insets
+        }
     }
 
     private fun initViewModelListeners() {

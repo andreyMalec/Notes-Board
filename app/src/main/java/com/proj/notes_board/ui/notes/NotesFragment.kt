@@ -3,6 +3,7 @@ package com.proj.notes_board.ui.notes
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -18,6 +19,7 @@ import com.proj.notes_board.di.Injectable
 import com.proj.notes_board.ui.MainViewModel
 import kotlinx.android.synthetic.main.fragment_notes.*
 import javax.inject.Inject
+
 
 class NotesFragment : Fragment(), Injectable {
     @Inject
@@ -100,6 +102,19 @@ class NotesFragment : Fragment(), Injectable {
         toolbar.setTitle(R.string.toolbar_notes)
         (activity as AppCompatActivity?)?.setSupportActionBar(toolbar)
         setHasOptionsMenu(true)
+
+        toolbar.setOnApplyWindowInsetsListener { _, insets ->
+            val statusBarHeight = insets.systemWindowInsetTop
+
+            val h =
+                (requireContext().resources.getDimension(R.dimen.toolbar_height) + statusBarHeight).toInt()
+            var lp = toolbar.layoutParams as CoordinatorLayout.LayoutParams
+            toolbar.layoutParams = lp.also { it.height = h }
+            toolbar.setPadding(0, statusBarHeight, 0, 0)
+            lp = notesRecycler.layoutParams as CoordinatorLayout.LayoutParams
+            notesRecycler.layoutParams = lp.also { it.topMargin = h }
+            insets
+        }
     }
 
     private fun initRecycler() {

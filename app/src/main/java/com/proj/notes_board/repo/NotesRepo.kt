@@ -53,7 +53,7 @@ class NotesRepo(private val dao: NotesDao) {
         note: Note
     ) =
         withContext(Dispatchers.IO) {
-            val newNote = Note(
+            val updatedNote = Note(
                 note.id,
                 title,
                 description ?: "",
@@ -62,7 +62,7 @@ class NotesRepo(private val dao: NotesDao) {
                 note.isSelected,
                 note.isDeleted
             )
-            dao.insert(newNote)
+            dao.update(updatedNote)
         }
 
     fun getSelected() = dao.getSelected()

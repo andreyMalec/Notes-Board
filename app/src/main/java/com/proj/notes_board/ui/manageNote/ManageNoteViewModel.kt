@@ -61,7 +61,11 @@ class ManageNoteViewModel @Inject constructor(
 
     private fun manageNote(title: String, description: String?, note: Note?) {
         viewModelScope.launch {
-            repo.createOrUpdate(title, description, noteColor.value, note)
+            val color = noteColor.value
+            if (color != null && color != 0)
+                repo.createOrUpdate(title, description, color, note)
+            else
+                repo.createOrUpdate(title, description, note?.noteColor, note)
             router.exit()
         }
     }
