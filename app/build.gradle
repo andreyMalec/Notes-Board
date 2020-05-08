@@ -15,8 +15,8 @@ android {
         applicationId "com.proj.notes_board"
         minSdkVersion 22
         targetSdkVersion 29
-        versionCode 8
-        versionName "0.1.4"
+        versionCode 9
+        versionName "0.1.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

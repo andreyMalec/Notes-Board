@@ -3,7 +3,7 @@ package com.proj.notes_board.di.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.proj.notes_board.ui.MainViewModel
-import com.proj.notes_board.ui.createNote.CreateNoteViewModel
+import com.proj.notes_board.ui.manageNote.ManageNoteViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -19,8 +19,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(CreateNoteViewModel::class)
-    abstract fun createNoteViewModel(viewModel: CreateNoteViewModel): ViewModel
+    @ViewModelKey(ManageNoteViewModel::class)
+    abstract fun manageNoteViewModel(viewModel: ManageNoteViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

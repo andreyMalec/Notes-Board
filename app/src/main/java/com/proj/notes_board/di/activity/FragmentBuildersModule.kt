@@ -1,6 +1,6 @@
 package com.proj.notes_board.di.activity
 
-import com.proj.notes_board.ui.createNote.CreateNoteFragment
+import com.proj.notes_board.ui.manageNote.ManageNoteFragment
 import com.proj.notes_board.ui.notes.NotesFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -13,5 +13,5 @@ abstract class FragmentBuildersModule {
     abstract fun contributeNotesFragment(): NotesFragment
 
     @ContributesAndroidInjector
-    abstract fun contributeCreateNoteFragment(): CreateNoteFragment
+    abstract fun contributeManageNoteFragment(): ManageNoteFragment
 }

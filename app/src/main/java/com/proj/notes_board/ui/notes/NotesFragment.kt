@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.proj.notes_board.R
@@ -41,7 +42,7 @@ class NotesFragment : Fragment(), Injectable {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_notes_context, menu)
-        menu.findItem(R.id.createBtn).isVisible = false
+        menu.findItem(R.id.doneBtn).isVisible = false
         deleteBtn = menu.findItem(R.id.deleteBtn)
         viewModel.selectedCount.value?.let {
             deleteBtn?.isVisible = it > 0
@@ -105,6 +106,7 @@ class NotesFragment : Fragment(), Injectable {
         notesRecycler.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         notesRecycler.adapter = adapter
+
         val helper = ItemTouchHelper(
             NotesSwipeCallback(
                 viewModel,
@@ -112,6 +114,12 @@ class NotesFragment : Fragment(), Injectable {
             )
         )
         helper.attachToRecyclerView(notesRecycler)
+
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                notesRecycler.scrollToPosition(positionStart)
+            }
+        })
     }
 
     private fun initListeners() {
@@ -122,7 +130,6 @@ class NotesFragment : Fragment(), Injectable {
     private fun initViewModelListeners() {
         viewModel.notes.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
-            notesRecycler.smoothScrollToPosition(0)
         })
 
         viewModel.selectedCount.observe(viewLifecycleOwner, Observer { count ->

@@ -16,6 +16,9 @@ interface NotesDao {
     @Query("SELECT * FROM Note WHERE id = :id")
     fun getById(id: Long): Note
 
+    @Query("SELECT * FROM Note WHERE id = :id")
+    fun getFlowById(id: Long): Flow<Note>
+
     @Query("SELECT * FROM Note WHERE isSelected = 1 ORDER BY id DESC")
     fun getSelected(): Flow<List<Note>>
 

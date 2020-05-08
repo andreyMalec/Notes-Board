@@ -23,8 +23,13 @@ class MainViewModel @Inject constructor(
     val selectedCount: LiveData<Int>
         get() = _selectedCount
 
+    private var firstLoad = true
+
     fun init() {
-        router.newRootScreen(Screens.Notes)
+        if (firstLoad) {
+            router.newRootScreen(Screens.Notes)
+            firstLoad = false
+        }
 
         viewModelScope.launch {
             selected.clear()
@@ -34,7 +39,7 @@ class MainViewModel @Inject constructor(
     }
 
     fun onCreateNoteClick() {
-        router.navigateTo(Screens.CreateNote)
+        router.navigateTo(Screens.ManageNote())
     }
 
     fun clearSelection() {
@@ -79,7 +84,8 @@ class MainViewModel @Inject constructor(
 
     override fun onNoteSwipe(position: Int) {
         val note = notes.value?.get(position)
-        val l = 2
+
+        router.navigateTo(Screens.ManageNote(note?.id))
     }
 
     private fun toggleSelect(note: Note) {

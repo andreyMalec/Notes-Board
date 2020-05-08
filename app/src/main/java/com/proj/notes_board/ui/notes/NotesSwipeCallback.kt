@@ -42,6 +42,7 @@ class NotesSwipeCallback(private val vm: NoteAction, private val context: Contex
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
     ): Int {
+        //block swipe for selected items
         return if (viewHolder is NotesAdapter.NoteItemViewHolder &&
             viewHolder.binding?.selectedMarker?.visibility == View.VISIBLE
         )
@@ -61,12 +62,18 @@ class NotesSwipeCallback(private val vm: NoteAction, private val context: Contex
     ) {
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
 
+        vibrate(c.width.toFloat(), dX)
+
+        drawBackgroundIcon(c, viewHolder.itemView, dX)
+    }
+
+    private fun vibrate(maxWidth: Float, dX: Float) {
         val a = 0F
-        val b = c.width / 3F
+        val b = maxWidth / 3F
         if (abs(dX) in a..b)
             vibrate = true
 
-        if (abs(dX) >= c.width / 2F && vibrate)
+        if (abs(dX) >= maxWidth / 2F && vibrate)
             context.getSystemService(Context.VIBRATOR_SERVICE)?.let {
                 it as Vibrator
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -76,10 +83,11 @@ class NotesSwipeCallback(private val vm: NoteAction, private val context: Contex
 
                 vibrate = false
             }
+    }
 
+    private fun drawBackgroundIcon(c: Canvas, itemView: View, dX: Float) {
         if (editIcon == null) return
 
-        val itemView = viewHolder.itemView
         val top = itemView.top + (itemView.height - editIcon.intrinsicHeight) / 2
         val left =
             itemView.width - editIcon.intrinsicWidth - (itemView.height - editIcon.intrinsicHeight) / 2

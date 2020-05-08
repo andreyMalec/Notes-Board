@@ -11,12 +11,26 @@ import java.util.*
 class NotesRepo(private val dao: NotesDao) {
     fun getAll(): Flow<List<Note>> = dao.getAll()
 
-    private suspend fun add(note: Note) =
+    fun getById(noteId: Long): Flow<Note> = dao.getFlowById(noteId)
+
+    suspend fun createOrUpdate(
+        title: String,
+        description: String?,
+        color: Int?,
+        note: Note?
+    ) =
         withContext(Dispatchers.IO) {
-            dao.insert(note)
+            if (note == null)
+                create(title, description, color)
+            else
+                update(title, description, color, note)
         }
 
-    suspend fun create(title: String, description: String?, color: Int?) =
+    private suspend fun create(
+        title: String,
+        description: String?,
+        color: Int?
+    ) =
         withContext(Dispatchers.IO) {
             val time = Calendar.getInstance().timeInMillis
 
@@ -28,6 +42,25 @@ class NotesRepo(private val dao: NotesDao) {
                 color ?: 0,
                 isSelected = false,
                 isDeleted = false
+            )
+            dao.insert(newNote)
+        }
+
+    private suspend fun update(
+        title: String,
+        description: String?,
+        color: Int?,
+        note: Note
+    ) =
+        withContext(Dispatchers.IO) {
+            val newNote = Note(
+                note.id,
+                title,
+                description ?: "",
+                note.createdDate,
+                color ?: 0,
+                note.isSelected,
+                note.isDeleted
             )
             dao.insert(newNote)
         }
