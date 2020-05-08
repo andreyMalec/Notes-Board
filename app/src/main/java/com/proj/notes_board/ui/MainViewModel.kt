@@ -19,10 +19,6 @@ class MainViewModel @Inject constructor(
 
     private val selected = mutableListOf<Long>()
 
-    private val _isCreateError = MutableLiveData(false)
-    val isCreateError: LiveData<Boolean>
-        get() = _isCreateError
-
     private val _selectedCount = MutableLiveData(0)
     val selectedCount: LiveData<Int>
         get() = _selectedCount
@@ -38,23 +34,7 @@ class MainViewModel @Inject constructor(
     }
 
     fun onCreateNoteClick() {
-        _isCreateError.value = false
         router.navigateTo(Screens.CreateNote)
-    }
-
-    fun checkAndCreateNote(title: String?, description: String?, badgeColor: Int?) {
-        if (title.isNullOrBlank()) {
-            _isCreateError.value = true
-            return
-        } else
-            createNote(title, description, badgeColor)
-    }
-
-    private fun createNote(title: String, description: String?, badgeColor: Int?) {
-        viewModelScope.launch {
-            repo.create(title, description, badgeColor)
-            router.exit()
-        }
     }
 
     fun clearSelection() {
